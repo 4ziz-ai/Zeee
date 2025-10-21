@@ -1,0 +1,141 @@
+body {
+    font-family: 'Georgia', serif;
+    background-color: #f4f4f4; /* Background halaman kembali netral */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    text-align: center;
+    /* --- MENGHAPUS BACKGROUND DARI BODY --- */
+    background-image: none; 
+}
+
+/* --- MENGHAPUS OVERLAY BODY --- */
+body::before {
+    content: none;
+}
+
+.container {
+    /* --- GAYA BACKGROUND DIPINDAHKAN KE SINI --- */
+    background-image: url('1.jpg'); /* Ganti dengan URL/path foto Anda */
+    background-size: cover; 
+    background-position: center; 
+    
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 90%;
+    position: relative; /* Penting untuk overlay anak */
+    overflow: hidden; /* Penting agar background tidak meluber */
+}
+
+/* --- OVERLAY UNTUK KETERBACAAN TEKS DI DALAM CONTAINER --- */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Overlay hitam transparan agar teks di dalamnya (h1, p) terlihat */
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 0; 
+}
+
+/* Mengatur semua konten di .container (teks, tombol) agar berada di atas overlay */
+h1, #pesan-container, #tombol-tunjukkan, #teks-peringatan {
+    position: relative; 
+    z-index: 1; /* Pastikan konten di atas overlay */
+    color: white; /* Mengubah warna teks utama menjadi putih agar terbaca di atas background gelap */
+}
+
+h1 {
+    color: #ffcccc; /* Warna judul diubah lebih terang */
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    animation: denyut 2s infinite ease-in-out; 
+}
+
+@keyframes denyut {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+#pesan-container {
+    text-align: left;
+    margin-top: 30px;
+    padding: 25px;
+    /* Hapus border background */
+    border: none;
+    border-left: 5px solid #ffcccc; 
+    /* Buat pesan container transparan agar background container terlihat */
+    background-color: rgba(0, 0, 0, 0.4); 
+    line-height: 1.7;
+    min-height: 250px; 
+    
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-in, transform 1s ease-in;
+}
+
+#pesan-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#teks-ketik strong {
+    color: #ff6666; /* Ubah warna strong agar kontras */
+    font-weight: bold;
+}
+
+.signature {
+    text-align: right;
+    margin-top: 30px;
+    font-style: italic;
+    color: #ccc; /* Warna tanda tangan lebih terang */
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+#tombol-tunjukkan {
+    background-color: #B22222;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    margin-top: 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+#tombol-tunjukkan:hover {
+    background-color: #902020;
+    transform: translateY(-2px);
+}
+
+#teks-peringatan {
+    color: #aaa; 
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+#teks-ketik::after {
+    content: '_';
+    animation: blink-caret 0.75s step-end infinite;
+    color: white; /* Kursor harus putih */
+}
+
+#pesan-container.typed #teks-ketik::after {
+    content: none;
+}
+
+@keyframes blink-caret {
+    from, to { color: transparent }
+    50% { color: white; }
+}
